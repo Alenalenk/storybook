@@ -1,34 +1,57 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { ProjectButton } from './components/ProjectButton/ProjectButton'
+import { ProjectCkeckbox } from './components/ProjectCheckbox/ProjectCheckbox'
+import { ProjectInput } from './components/ProjectInput/ProjectInput'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    remember: false
+  })
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    console.log(formData)
+  }
+
+  const setData = (e) => {
+     setFormData(prevData => ({
+      ...prevData,
+      [e.target.name]: e.target.value
+    }))
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <form className="flex max-w-md flex-col gap-4">
+      <ProjectInput 
+        id="email1" 
+        label="Електронна адреса" 
+        type="email"
+        name="email"
+        value={formData.email} 
+        required={true} 
+        placeholder="email@example.com"
+        onChange={setData}
+      />
+      <ProjectInput 
+        id="password1" 
+        label="Пароль" 
+        type="password" 
+        required={true}
+      />
+      <ProjectCkeckbox 
+        id="remember" 
+        label="Запам'ятати мене" 
+        isChecked={formData.remember} 
+        checkHandler={setData}
+      />
+      <ProjectButton 
+        label="Відправити" 
+        onClick={handleClick}
+      />
+    </form>
   )
 }
 
